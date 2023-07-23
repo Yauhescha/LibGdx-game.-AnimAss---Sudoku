@@ -49,13 +49,14 @@ public class MainMenuScreen extends ScreenAdapter {
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
 
+        Texture buttonTextureMain = new Texture(Gdx.files.internal("ui/header.png"));
         Texture buttonTexture = new Texture(Gdx.files.internal("ui/button.png"));
         Texture mainImage = new Texture(Gdx.files.internal("ui/mainheader.png"));
         Image mainimage = new Image(mainImage);
         mainimage.setScaling(Scaling.fill);
         table.add(mainimage).expandX().center().fillX().padBottom(200).row();
 
-        TextureRegion btnPlay = new TextureRegion(buttonTexture);
+        TextureRegion btnPlay = new TextureRegion(buttonTextureMain);
         TextureRegionDrawable buttonDrawable1 = new TextureRegionDrawable(btnPlay);
         ImageTextButton imageTextButton1 = new ImageTextButton("PLAY", new ImageTextButton.ImageTextButtonStyle(buttonDrawable1, null, null, font));
         table.add(imageTextButton1).center().padTop(10).padBottom(10).row();

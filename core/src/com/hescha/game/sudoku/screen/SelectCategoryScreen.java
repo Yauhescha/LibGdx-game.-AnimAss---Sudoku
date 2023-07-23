@@ -2,6 +2,7 @@ package com.hescha.game.sudoku.screen;
 
 
 import static com.hescha.game.sudoku.AnimAssSudoku.BACKGROUND_COLOR;
+import static com.hescha.game.sudoku.util.LevelUtil.loadLevels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -26,6 +27,10 @@ import com.hescha.game.sudoku.AnimAssSudoku;
 import com.hescha.game.sudoku.MyFunctionalInterface;
 import com.hescha.game.sudoku.model.SudokuDifficulty;
 import com.hescha.game.sudoku.util.FontUtil;
+import com.hescha.game.sudoku.util.Level;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SelectCategoryScreen extends ScreenAdapter {
     public static SelectCategoryScreen screen;
@@ -56,25 +61,25 @@ public class SelectCategoryScreen extends ScreenAdapter {
 
         Table table = new Table();
         table.setFillParent(true);
-        font = FontUtil.generateFont(Color.BLACK);
+        font = FontUtil.generateFont(Color.WHITE);
         innerTable = new Table();
 //        innerTable.setFillParent(true);
 
         createButton(headerTexture, sudokuDifficulty.name().replace("_", " "), 50, null);
         createButton(buttonTexture, "BACK", 100, addAction(() -> AnimAssSudoku.launcher.setScreen(SelectDifficultyScreen.screen)));
 
-//        List<Level> levels = loadLevels().stream()
-//                .filter(level -> sudokuDifficulty == level.getType())
-//                .collect(Collectors.toList());
-//        List<String> categories = levels
-//                .stream()
-//                .map(Level::getCategory)
-//                .distinct()
-//                .collect(Collectors.toList());
-//
-//        for (String category : categories) {
-//            createButton(buttonTexture, category, 0, addAction(() -> AnimAssSudoku.launcher.setScreen(new SelectLevelScreen(sudokuDifficulty, category, levels, isGalleryMode))));
-//        }
+        List<Level> levels = loadLevels().stream()
+                .filter(level -> sudokuDifficulty == level.getSudoku().getSudokuDifficulty())
+                .collect(Collectors.toList());
+        List<String> categories = levels
+                .stream()
+                .map(Level::getCategory)
+                .distinct()
+                .collect(Collectors.toList());
+
+        for (String category : categories) {
+            createButton(buttonTexture, category, 0, addAction(() -> AnimAssSudoku.launcher.setScreen(new SelectLevelScreen(sudokuDifficulty, category, levels, isGalleryMode))));
+        }
 
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
