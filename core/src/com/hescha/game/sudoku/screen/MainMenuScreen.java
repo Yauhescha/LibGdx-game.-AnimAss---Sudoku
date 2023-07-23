@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -40,7 +41,7 @@ public class MainMenuScreen extends ScreenAdapter {
         camera.update();
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
         viewport.apply(true);
-        font = FontUtil.generateFont(Color.BLACK);
+        font = FontUtil.generateFont(Color.WHITE);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -49,16 +50,10 @@ public class MainMenuScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
 
         Texture buttonTexture = new Texture(Gdx.files.internal("ui/button.png"));
-        Texture headerTexture = new Texture(Gdx.files.internal("ui/header.png"));
-        Texture mainImage = new Texture(Gdx.files.internal("ui/MainImage.png"));
-
-        TextureRegion headerCover = new TextureRegion(headerTexture);
-        TextureRegionDrawable buttonDrawable0 = new TextureRegionDrawable(headerCover);
-        ImageTextButton imageTextButton0 = new ImageTextButton("PUZZLE", new ImageTextButton.ImageTextButtonStyle(buttonDrawable0, null, null, font));
-        table.add(imageTextButton0).center().padTop(10).padBottom(10).row();
-
+        Texture mainImage = new Texture(Gdx.files.internal("ui/mainheader.png"));
         Image mainimage = new Image(mainImage);
-        table.add(mainimage).center().fillX().padTop(10).padBottom(10).row();
+        mainimage.setScaling(Scaling.fill);
+        table.add(mainimage).expandX().center().fillX().padBottom(200).row();
 
         TextureRegion btnPlay = new TextureRegion(buttonTexture);
         TextureRegionDrawable buttonDrawable1 = new TextureRegionDrawable(btnPlay);
