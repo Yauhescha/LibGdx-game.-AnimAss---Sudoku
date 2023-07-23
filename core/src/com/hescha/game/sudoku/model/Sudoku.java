@@ -1,6 +1,6 @@
-package com.hescha.game.model;
+package com.hescha.game.sudoku.model;
 
-import com.hescha.game.service.SudokuGenerator;
+import com.hescha.game.sudoku.service.SudokuGenerator;
 
 import lombok.Data;
 

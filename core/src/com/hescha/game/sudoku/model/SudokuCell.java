@@ -1,4 +1,4 @@
-package com.hescha.game.model;
+package com.hescha.game.sudoku.model;
 
 import lombok.Data;
 

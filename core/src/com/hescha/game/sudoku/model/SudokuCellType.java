@@ -1,4 +1,4 @@
-package com.hescha.game.model;
+package com.hescha.game.sudoku.model;
 
 public enum SudokuCellType {
     ENABLED, DISABLED;

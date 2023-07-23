@@ -1,8 +1,8 @@
-package com.hescha.game.service;
+package com.hescha.game.sudoku.service;
 
-import com.hescha.game.model.Sudoku;
-import com.hescha.game.model.SudokuCell;
-import com.hescha.game.model.SudokuDifficulty;
+import com.hescha.game.sudoku.model.Sudoku;
+import com.hescha.game.sudoku.model.SudokuCell;
+import com.hescha.game.sudoku.model.SudokuDifficulty;
 
 import lombok.AllArgsConstructor;
 

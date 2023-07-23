@@ -1,10 +1,10 @@
-package com.hescha.game;
+package com.hescha.game.sudoku;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.hescha.game.AnimAssSudoku;
+import com.hescha.game.sudoku.AnimAssSudoku;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

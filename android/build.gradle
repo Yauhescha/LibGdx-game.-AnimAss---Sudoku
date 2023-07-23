@@ -1,5 +1,5 @@
 android {
-    namespace "com.hescha.game"
+    namespace "com.hescha.game.sudoku"
     buildToolsVersion "33.0.2"
     compileSdkVersion 33
     sourceSets {
@@ -18,7 +18,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "com.hescha.game"
+        applicationId "com.hescha.game.sudoku"
         minSdkVersion 14
         targetSdkVersion 33
         versionCode 1
@@ -83,7 +83,7 @@ tasks.register('run', Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.hescha.game/com.hescha.game.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.hescha.game.sudoku/com.hescha.game.sudoku.AndroidLauncher'
 }
 
 eclipse.project.name = appName + "-android"
