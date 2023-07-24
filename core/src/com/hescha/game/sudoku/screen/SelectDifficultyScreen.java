@@ -49,6 +49,7 @@ public class SelectDifficultyScreen extends ScreenAdapter {
         camera.update();
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
         viewport.apply(true);
+
         Texture buttonTexture = AnimAssSudoku.assetManager.get("ui/button.png", Texture.class);
         Texture headerTexture = AnimAssSudoku.assetManager.get("ui/header.png", Texture.class);
 
@@ -60,7 +61,8 @@ public class SelectDifficultyScreen extends ScreenAdapter {
 
 
         createButton(headerTexture, isGalleryMode ? "GALLERY" : "Select difficulty", 50, null);
-        createButton(buttonTexture, "BACK", 100, addAction(() -> AnimAssSudoku.launcher.setScreen(MainMenuScreen.screen)));
+        createButton(buttonTexture, "BACK", 100, addAction(() -> {
+            screen = null;AnimAssSudoku.launcher.setScreen(MainMenuScreen.screen);}));
         for (SudokuDifficulty difficulty : SudokuDifficulty.values()) {
             createButton(buttonTexture, difficulty.name(), 30,
                     addAction(() -> AnimAssSudoku.launcher.setScreen(new SelectCategoryScreen(difficulty, isGalleryMode))));

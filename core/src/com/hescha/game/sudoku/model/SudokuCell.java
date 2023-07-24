@@ -1,17 +1,16 @@
 package com.hescha.game.sudoku.model;
 
 
-import com.badlogic.gdx.graphics.Texture;
+import java.io.Serializable;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class SudokuCell {
-    private Texture currentTexture;
-
+@NoArgsConstructor
+public class SudokuCell implements Serializable {
     private SudokuCellType cellType;
     private int number;
-    private boolean isSelected;
 
     public SudokuCell(int number, SudokuCellType cellType) {
         this.number = number;
@@ -19,7 +18,8 @@ public class SudokuCell {
     }
 
     public void setNumber(int number) {
-        if (cellType != SudokuCellType.DISABLED)
+        if (cellType != SudokuCellType.DISABLED) {
             this.number = number;
+        }
     }
 }

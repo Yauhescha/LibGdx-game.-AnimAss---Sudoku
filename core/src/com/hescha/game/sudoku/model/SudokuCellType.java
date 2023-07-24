@@ -1,5 +1,7 @@
 package com.hescha.game.sudoku.model;
 
-public enum SudokuCellType {
+import java.io.Serializable;
+
+public enum SudokuCellType  implements Serializable {
     ENABLED, DISABLED;
 }

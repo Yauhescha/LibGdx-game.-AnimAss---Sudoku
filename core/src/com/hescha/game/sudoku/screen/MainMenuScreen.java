@@ -4,6 +4,7 @@ package com.hescha.game.sudoku.screen;
 import static com.hescha.game.sudoku.AnimAssSudoku.BACKGROUND_COLOR;
 import static com.hescha.game.sudoku.AnimAssSudoku.WORLD_HEIGHT;
 import static com.hescha.game.sudoku.AnimAssSudoku.WORLD_WIDTH;
+import static com.hescha.game.sudoku.util.LevelUtil.loadLevels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -90,6 +91,7 @@ public class MainMenuScreen extends ScreenAdapter {
             }
         });
 
+        loadLevels();
     }
 
     @Override

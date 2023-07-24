@@ -76,7 +76,7 @@ public class SelectLevelScreen extends ScreenAdapter {
         innerTable = new Table();
 
         createButton(headerTexture, levelType.name().replace("_", " ") + "\n" + category, 50, null);
-        createButton(buttonTexture, "BACK", 100, addAction(() -> AnimAssSudoku.launcher.setScreen(SelectCategoryScreen.screen)));
+        createButton(buttonTexture, "BACK", 100, addAction(() -> {screen=null;AnimAssSudoku.launcher.setScreen(SelectCategoryScreen.screen);}));
 
 
         Preferences prefs = Gdx.app.getPreferences(PREFERENCE_SAVING_PATH);

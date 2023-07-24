@@ -56,6 +56,7 @@ public class SelectCategoryScreen extends ScreenAdapter {
         camera.update();
         viewport = new FitViewport(worldWidth, worldHeight, camera);
         viewport.apply(true);
+
         Texture buttonTexture = AnimAssSudoku.assetManager.get("ui/button.png", Texture.class);
         Texture headerTexture = AnimAssSudoku.assetManager.get("ui/header.png", Texture.class);
 
@@ -65,7 +66,7 @@ public class SelectCategoryScreen extends ScreenAdapter {
         innerTable = new Table();
 
         createButton(headerTexture, sudokuDifficulty.name().replace("_", " "), 50, null);
-        createButton(buttonTexture, "BACK", 100, addAction(() -> AnimAssSudoku.launcher.setScreen(SelectDifficultyScreen.screen)));
+        createButton(buttonTexture, "BACK", 100, addAction(() -> {screen=null;AnimAssSudoku.launcher.setScreen(SelectDifficultyScreen.screen);}));
 
         List<Level> levels = loadLevels().stream()
                 .filter(level -> sudokuDifficulty == level.getSudoku().getSudokuDifficulty())
@@ -106,7 +107,7 @@ public class SelectCategoryScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(BACKGROUND_COLOR);
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+//        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
 
