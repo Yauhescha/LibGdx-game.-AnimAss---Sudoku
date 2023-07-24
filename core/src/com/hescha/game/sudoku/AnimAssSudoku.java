@@ -25,9 +25,6 @@ public class AnimAssSudoku extends Game {
     public static Texture fieldSelectionButton;
     public static Texture cleanIcon;
 
-    public static BitmapFont fontWhite;
-    public static BitmapFont fontBlack;
-
     @Override
     public void create() {
         WORLD_WIDTH = Gdx.graphics.getWidth();
@@ -38,13 +35,10 @@ public class AnimAssSudoku extends Game {
         fieldSelectionButton = new Texture(Gdx.files.internal("ui/fieldSelectionButton.png"));
         cleanIcon = new Texture(Gdx.files.internal("ui/cleanIcon.png"));
 
-        fontWhite = FontUtil.generateFont(Color.WHITE);
-        fontBlack = FontUtil.generateFont(Color.BLACK);
-
 
         Level level = new Level();
         level.setCategory("Cat");
-        level.setSudoku(new SudokuGenerator().generateGame(SudokuDifficulty.EASY));
+        level.setSudoku(new SudokuGenerator().generateGame(SudokuDifficulty.FOR_KIDS));
         level.setName("girst level");
         level.setImagePath("ui/button.png");
         setScreen(new GameScreen(level));

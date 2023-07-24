@@ -2,25 +2,28 @@ package com.hescha.game.sudoku.screen;
 
 
 import static com.hescha.game.sudoku.AnimAssSudoku.BACKGROUND_COLOR;
+import static com.hescha.game.sudoku.AnimAssSudoku.PREFERENCE_SAVING_PATH;
 import static com.hescha.game.sudoku.AnimAssSudoku.WORLD_HEIGHT;
 import static com.hescha.game.sudoku.AnimAssSudoku.WORLD_WIDTH;
-import static com.hescha.game.sudoku.AnimAssSudoku.fontBlack;
-import static com.hescha.game.sudoku.AnimAssSudoku.fontWhite;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -31,6 +34,7 @@ import com.hescha.game.sudoku.model.Sudoku;
 import com.hescha.game.sudoku.model.SudokuCell;
 import com.hescha.game.sudoku.model.SudokuCellType;
 import com.hescha.game.sudoku.service.SudokuService;
+import com.hescha.game.sudoku.util.FontUtil;
 import com.hescha.game.sudoku.util.Level;
 
 import lombok.RequiredArgsConstructor;
@@ -62,11 +66,23 @@ public class GameScreen extends ScreenAdapter {
     public TextureRegionDrawable textureFilledCellDrawable;
     public TextureRegionDrawable texturePermanentCellDrawable;
 
+    public static BitmapFont fontWhite;
+    public static BitmapFont fontBlack;
+
+    private Dialog dialog;
+    private float elapsedTime;
+    private float minTime;
+    ImageTextButton infoLabel;
+    boolean isSolved = false;
+
     @Override
     public void show() {
         glyphLayout = new GlyphLayout();
         shapeRenderer = new ShapeRenderer();
 
+
+        fontWhite = FontUtil.generateFont(Color.WHITE);
+        fontBlack = FontUtil.generateFont(Color.BLACK);
 
         textureEmptyCell = new Texture(Gdx.files.internal("ui/textureEmptyCell.png"));
         textureSelectedCell = new Texture(Gdx.files.internal("ui/textureSelectedCell.png"));
@@ -78,6 +94,12 @@ public class GameScreen extends ScreenAdapter {
         textureEmptyCellDrawable = new TextureRegionDrawable(textureEmptyCell);
         textureFilledCellDrawable = new TextureRegionDrawable(textureFilledCell);
         texturePermanentCellDrawable = new TextureRegionDrawable(texturePermanentCell);
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle(fontBlack, Color.BLACK);
+
+        dialog = new Dialog("Result", new Window.WindowStyle(fontBlack, Color.BLACK, null));
+        Label label = new Label("Текст сообщения", labelStyle);
+        dialog.getContentTable().add(label).pad(20);
 
         float worldWidth = WORLD_WIDTH;
         float worldHeight = WORLD_HEIGHT;
@@ -99,28 +121,20 @@ public class GameScreen extends ScreenAdapter {
         tableContainer.setFillParent(true);
         stageInfo.addActor(tableContainer);
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(fontBlack, Color.BLACK);
         Label emptyLabel1 = new Label(" ", labelStyle);
         tableContainer.add(emptyLabel1).row();
 
-        // Добавьте таблицу для кнопки в основную таблицу
-//        tableContainer.add(imageTextButton1).row();
+
+        Texture texture = new Texture(Gdx.files.internal("ui/button.png"));
+        TextureRegion textureRegion = new TextureRegion(texture);
+        TextureRegionDrawable buttonDrawable = new TextureRegionDrawable(textureRegion);
+        infoLabel = new ImageTextButton("INFO", new ImageTextButton.ImageTextButtonStyle(buttonDrawable, null, null, fontWhite));
+        tableContainer.add(infoLabel).expandX().fillX().padTop(10).padBottom(20).row();
+
 
         // Добавьте таблицу игрового поля в основную таблицу
         tableContainer.add(loadSudokuBoard()).center().row();
         tableContainer.add(loadNumbersForFilling()).center().row();
-
-        Texture buttonTextureCheck = new Texture(Gdx.files.internal("ui/button.png"));
-        TextureRegion btnCheck = new TextureRegion(buttonTextureCheck);
-        TextureRegionDrawable drawableCheck = new TextureRegionDrawable(btnCheck);
-        ImageTextButton buttonImageCheck = new ImageTextButton("Check", new ImageTextButton.ImageTextButtonStyle(drawableCheck, null, null, fontWhite));
-        tableContainer.add(buttonImageCheck).center().padTop(10).row();
-        buttonImageCheck.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("CHECK if GAME EDNDED: " + SudokuService.isRowSolvedCorrect(sudoku));
-            }
-        });
 
         Texture buttonTexture = new Texture(Gdx.files.internal("ui/button.png"));
         TextureRegion btnBack = new TextureRegion(buttonTexture);
@@ -134,9 +148,11 @@ public class GameScreen extends ScreenAdapter {
             }
         });
 
-//        levelScoreSavingPath = level.getSudoku().getSudokuDifficulty().name() + "-" + level.getCategory() + "-" + level.getName();
-//        Preferences prefs = Gdx.app.getPreferences(PREFERENCE_SAVING_PATH);
-//        movesMin = prefs.getInteger(levelScoreSavingPath, 9999);
+//        tableContainer.addActor(dialog);
+
+        levelScoreSavingPath = level.getSudoku().getSudokuDifficulty().name() + "-" + level.getCategory() + "-" + level.getName();
+        Preferences prefs = Gdx.app.getPreferences(PREFERENCE_SAVING_PATH);
+        minTime = prefs.getInteger(levelScoreSavingPath, 9999);
     }
 
     private Table loadSudokuBoard() {
@@ -232,6 +248,13 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        if (!isSolved) {
+            updatePuzzleStatus();
+            elapsedTime += Gdx.graphics.getDeltaTime();
+        }
+        infoLabel.setText("\n" + "Seconds: " + (int) elapsedTime + "\n" +
+                "Seconds min: " + (int) minTime + "\n");
+
         ScreenUtils.clear(BACKGROUND_COLOR);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -241,18 +264,11 @@ public class GameScreen extends ScreenAdapter {
             }
         }
 
-        // Начало рисования
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
-        // Установите цвет для квадрата (белый)
         shapeRenderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-        // Рисуем квадрат
         float x = tableCells.getX(); // X-координата верхнего левого угла квадрата
         float y = tableCells.bottom().getY(); // Y-координата верхнего левого угла квадрата
         shapeRenderer.rect(x, y, tableCells.getWidth(), tableCells.getMinHeight());
-
-        // Завершение рисования
         shapeRenderer.end();
 
         stageInfo.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -270,6 +286,21 @@ public class GameScreen extends ScreenAdapter {
         } else {
             return new TextureRegion(textureEmptyCell);
         }
+    }
+
+    private void updatePuzzleStatus() {
+        isSolved = SudokuService.isRowSolvedCorrect(sudoku);
+        System.out.println("CHECK if GAME EDNDED: " + isSolved);
+        if (isSolved && elapsedTime < minTime) {
+            saveBestResult();
+        }
+    }
+
+    private void saveBestResult() {
+        minTime = elapsedTime;
+        Preferences prefs = Gdx.app.getPreferences(PREFERENCE_SAVING_PATH);
+        prefs.putInteger(levelScoreSavingPath, (int) minTime);
+        prefs.flush();
     }
 
     @Override
