@@ -69,7 +69,6 @@ public class GameScreen extends ScreenAdapter {
     public static BitmapFont fontWhite;
     public static BitmapFont fontBlack;
 
-    private Dialog dialog;
     private float elapsedTime;
     private float minTime;
     ImageTextButton infoLabel;
@@ -96,10 +95,6 @@ public class GameScreen extends ScreenAdapter {
         texturePermanentCellDrawable = new TextureRegionDrawable(texturePermanentCell);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(fontBlack, Color.BLACK);
-
-        dialog = new Dialog("Result", new Window.WindowStyle(fontBlack, Color.BLACK, null));
-        Label label = new Label("Текст сообщения", labelStyle);
-        dialog.getContentTable().add(label).pad(20);
 
         float worldWidth = WORLD_WIDTH;
         float worldHeight = WORLD_HEIGHT;
@@ -157,7 +152,7 @@ public class GameScreen extends ScreenAdapter {
 
     private Table loadSudokuBoard() {
         tableCells = new Table();
-        tableCells.setFillParent(true);
+//        tableCells.setFillParent(true);
         SudokuCell[][] tiles = sudoku.getBoard();
         int pad = 5;
         int padBottom = 20;
@@ -217,7 +212,7 @@ public class GameScreen extends ScreenAdapter {
             imageTextButton1.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if (sudoku.getSelectedSell() != null) {
+                    if (!isSolved && sudoku.getSelectedSell() != null) {
                         sudoku.getSelectedSell().setNumber(finalI);
                     }
                 }
@@ -235,7 +230,7 @@ public class GameScreen extends ScreenAdapter {
         imageTextButton1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (sudoku.getSelectedSell() != null) {
+                if (!isSolved && sudoku.getSelectedSell() != null) {
                     sudoku.getSelectedSell().setNumber(0);
                 }
             }
@@ -252,8 +247,8 @@ public class GameScreen extends ScreenAdapter {
             updatePuzzleStatus();
             elapsedTime += Gdx.graphics.getDeltaTime();
         }
-        infoLabel.setText("\n" + "Seconds: " + (int) elapsedTime + "\n" +
-                "Seconds min: " + (int) minTime + "\n");
+        infoLabel.setText("Seconds: " + (int) elapsedTime + "\n" +
+                "Seconds min: " + (int) minTime);
 
         ScreenUtils.clear(BACKGROUND_COLOR);
         for (int i = 0; i < 9; i++) {
@@ -301,6 +296,7 @@ public class GameScreen extends ScreenAdapter {
         Preferences prefs = Gdx.app.getPreferences(PREFERENCE_SAVING_PATH);
         prefs.putInteger(levelScoreSavingPath, (int) minTime);
         prefs.flush();
+        System.out.println("Result saved " + minTime);
     }
 
     @Override
