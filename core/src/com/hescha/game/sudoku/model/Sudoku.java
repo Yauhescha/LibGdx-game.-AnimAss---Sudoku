@@ -8,4 +8,5 @@ import lombok.Data;
 public class Sudoku {
     private SudokuCell[][] board = new SudokuCell[SudokuGenerator.SIZE][SudokuGenerator.SIZE];
     private SudokuDifficulty sudokuDifficulty;
+    private SudokuCell selectedSell;
 }

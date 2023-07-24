@@ -12,11 +12,11 @@ import java.lang.Math;
 public class SudokuGenerator {
     public static final int SIZE = 9;
     private static final int SRN = 3;
-    private final int[][] arr = new int[SIZE][SIZE];
-    private int numberOfMissingDigit;
+    private static final int[][] arr = new int[SIZE][SIZE];
+    private static int numberOfMissingDigit;
 
-    public Sudoku generateGame(SudokuDifficulty sudokuDifficulty) {
-        this.numberOfMissingDigit = sudokuDifficulty.getNumberOfRemovedCells();
+    public static Sudoku generateGame(SudokuDifficulty sudokuDifficulty) {
+        numberOfMissingDigit = sudokuDifficulty.getNumberOfRemovedCells();
         fillValues();
 
         Sudoku sudoku = new Sudoku();
@@ -36,7 +36,7 @@ public class SudokuGenerator {
     }
 
     // Sudoku Generator
-    private void fillValues() {
+    private static void fillValues() {
         // Fill the diagonal of SRN x SRN matrices
         fillDiagonal();
         // Fill remaining blocks
@@ -46,14 +46,14 @@ public class SudokuGenerator {
     }
 
     // Fill the diagonal SRN number of SRN x SRN matrices
-    private void fillDiagonal() {
+    private static void fillDiagonal() {
         for (int i = 0; i < SIZE; i = i + SRN)
             // for diagonal box, start coordinates->i==j
             fillBox(i, i);
     }
 
     // Returns false if given 3 x 3 block contains num.
-    private boolean unUsedInBox(int rowStart, int colStart, int num) {
+    private static boolean unUsedInBox(int rowStart, int colStart, int num) {
         for (int i = 0; i < SRN; i++)
             for (int j = 0; j < SRN; j++)
                 if (arr[rowStart + i][colStart + j] == num)
@@ -62,7 +62,7 @@ public class SudokuGenerator {
     }
 
     // Fill a 3 x 3 matrix.
-    private void fillBox(int row, int col) {
+    private static void fillBox(int row, int col) {
         int num;
         for (int i = 0; i < SRN; i++) {
             for (int j = 0; j < SRN; j++) {
@@ -77,19 +77,19 @@ public class SudokuGenerator {
     }
 
     // Random generator
-    private int randomGenerator(int num) {
+    private static int randomGenerator(int num) {
         return (int) Math.floor((Math.random() * num + 1));
     }
 
     // Check if safe to put in cell
-    private boolean CheckIfSafe(int i, int j, int num) {
+    private static boolean CheckIfSafe(int i, int j, int num) {
         return (unUsedInRow(i, num) &&
                 unUsedInCol(j, num) &&
                 unUsedInBox(i - i % SRN, j - j % SRN, num));
     }
 
     // check in the row for existence
-    private boolean unUsedInRow(int i, int num) {
+    private static boolean unUsedInRow(int i, int num) {
         for (int j = 0; j < SIZE; j++)
             if (arr[i][j] == num)
                 return false;
@@ -97,7 +97,7 @@ public class SudokuGenerator {
     }
 
     // check in the row for existence
-    private boolean unUsedInCol(int j, int num) {
+    private static boolean unUsedInCol(int j, int num) {
         for (int i = 0; i < SIZE; i++)
             if (arr[i][j] == num)
                 return false;
@@ -106,7 +106,7 @@ public class SudokuGenerator {
 
     // A recursive function to fill remaining
     // matrix
-    private boolean fillRemaining(int i, int j) {
+    private static boolean fillRemaining(int i, int j) {
         // System.out.println(i+" "+j);
         if (j >= SIZE && i < SIZE - 1) {
             i = i + 1;
@@ -144,7 +144,7 @@ public class SudokuGenerator {
 
     // Remove the K no. of digits to
     // complete game
-    private void removeKDigits() {
+    private static void removeKDigits() {
         int count = numberOfMissingDigit;
         while (count != 0) {
             int cellId = randomGenerator(SIZE * SIZE) - 1;

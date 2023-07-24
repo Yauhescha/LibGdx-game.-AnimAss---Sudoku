@@ -12,11 +12,11 @@ public class SudokuService {
 
     private final SudokuGenerator sudokuGenerator;
 
-    public Sudoku generateGame(SudokuDifficulty sudokuDifficulty) {
-        return sudokuGenerator.generateGame(sudokuDifficulty);
+    public static Sudoku generateGame(SudokuDifficulty sudokuDifficulty) {
+        return SudokuGenerator.generateGame(sudokuDifficulty);
     }
 
-    public boolean isRowSolvedCorrect(Sudoku sudoku) {
+    public static boolean isRowSolvedCorrect(Sudoku sudoku) {
         SudokuCell[][] sudokuBoard = sudoku.getBoard();
         int[][] board = new int[sudokuBoard.length][sudokuBoard.length];
         for (int i = 0; i < 9; i++) {
@@ -28,7 +28,7 @@ public class SudokuService {
     }
 
 
-    private boolean isRowSolvedCorrect(int[][] board) {
+    private static boolean isRowSolvedCorrect(int[][] board) {
         int size = board.length;
         for (int i = 0; i < size; i++) {
 

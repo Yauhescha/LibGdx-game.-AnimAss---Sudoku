@@ -5,8 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.hescha.game.sudoku.model.SudokuDifficulty;
 import com.hescha.game.sudoku.screen.GameScreen;
 import com.hescha.game.sudoku.service.SudokuGenerator;
@@ -22,10 +21,12 @@ public class AnimAssSudoku extends Game {
     public static Color BACKGROUND_COLOR =  new Color(242f/255,231f/255,216f/255,1);
 
 
-    public static Texture textureSelectedCell;
-    public static Texture textureEmptyCell;
-    public static Texture textureFilledCell;
-    public static Texture texturePermanentCell;
+
+    public static Texture fieldSelectionButton;
+    public static Texture cleanIcon;
+
+    public static BitmapFont fontWhite;
+    public static BitmapFont fontBlack;
 
     @Override
     public void create() {
@@ -34,10 +35,11 @@ public class AnimAssSudoku extends Game {
         launcher = this;
 
 
-        textureEmptyCell = new Texture(Gdx.files.internal("ui/textureEmptyCell.png"));
-        textureSelectedCell = new Texture(Gdx.files.internal("ui/textureSelectedCell.png"));
-        textureFilledCell = new Texture(Gdx.files.internal("ui/textureFilledCell.png"));
-        texturePermanentCell = new Texture(Gdx.files.internal("ui/texturePermanentCell.png"));
+        fieldSelectionButton = new Texture(Gdx.files.internal("ui/fieldSelectionButton.png"));
+        cleanIcon = new Texture(Gdx.files.internal("ui/cleanIcon.png"));
+
+        fontWhite = FontUtil.generateFont(Color.WHITE);
+        fontBlack = FontUtil.generateFont(Color.BLACK);
 
 
         Level level = new Level();
