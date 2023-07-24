@@ -35,7 +35,7 @@ public class SelectDifficultyScreen extends ScreenAdapter {
     private Table innerTable;
 
     private Viewport viewport;
-    boolean isGalleryMode = false;
+    boolean isGalleryMode;
 
     public SelectDifficultyScreen(boolean isGalleryMode) {
         this.isGalleryMode = isGalleryMode;

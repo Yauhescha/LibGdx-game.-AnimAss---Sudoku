@@ -10,7 +10,7 @@ public class SudokuCell {
     private Texture currentTexture;
 
     private SudokuCellType cellType;
-    private int number = 0;
+    private int number;
     private boolean isSelected;
 
     public SudokuCell(int number, SudokuCellType cellType) {

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.hescha.game.sudoku.model.SudokuDifficulty;
 import com.hescha.game.sudoku.screen.GameScreen;
+import com.hescha.game.sudoku.screen.MainMenuScreen;
 import com.hescha.game.sudoku.service.SudokuGenerator;
 import com.hescha.game.sudoku.util.FontUtil;
 import com.hescha.game.sudoku.util.Level;
@@ -36,11 +37,12 @@ public class AnimAssSudoku extends Game {
         cleanIcon = new Texture(Gdx.files.internal("ui/cleanIcon.png"));
 
 
-        Level level = new Level();
-        level.setCategory("Cat");
-        level.setSudoku(new SudokuGenerator().generateGame(SudokuDifficulty.FOR_KIDS));
-        level.setName("girst level");
-        level.setImagePath("ui/button.png");
-        setScreen(new GameScreen(level));
+//        Level level = new Level();
+//        level.setCategory("Cat");
+//        level.setSudoku(new SudokuGenerator().generateGame(SudokuDifficulty.FOR_KIDS));
+//        level.setName("girst level");
+//        level.setImagePath("ui/button.png");
+//        setScreen(new GameScreen(level));
+        setScreen(new MainMenuScreen());
     }
 }

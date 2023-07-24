@@ -19,11 +19,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -41,6 +39,9 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class GameScreen extends ScreenAdapter {
+    public static final String RESULT_SAVED = "Result saved ";
+    public static final String CHECK_IF_GAME_EDNDED = "CHECK if GAME EDNDED: ";
+    public static final String CLICKED_BY_BUMBR = "CLICKED BY BUMBR: ";
     public static Sudoku sudoku;
     public final Level level;
     private Viewport viewport;
@@ -126,8 +127,6 @@ public class GameScreen extends ScreenAdapter {
         infoLabel = new ImageTextButton("INFO", new ImageTextButton.ImageTextButtonStyle(buttonDrawable, null, null, fontWhite));
         tableContainer.add(infoLabel).expandX().fillX().padTop(10).padBottom(20).row();
 
-
-        // Добавьте таблицу игрового поля в основную таблицу
         tableContainer.add(loadSudokuBoard()).center().row();
         tableContainer.add(loadNumbersForFilling()).center().row();
 
@@ -143,7 +142,6 @@ public class GameScreen extends ScreenAdapter {
             }
         });
 
-//        tableContainer.addActor(dialog);
 
         levelScoreSavingPath = level.getSudoku().getSudokuDifficulty().name() + "-" + level.getCategory() + "-" + level.getName();
         Preferences prefs = Gdx.app.getPreferences(PREFERENCE_SAVING_PATH);
@@ -152,10 +150,10 @@ public class GameScreen extends ScreenAdapter {
 
     private Table loadSudokuBoard() {
         tableCells = new Table();
-//        tableCells.setFillParent(true);
         SudokuCell[][] tiles = sudoku.getBoard();
         int pad = 5;
         int padBottom = 20;
+        float size = WORLD_WIDTH / 11;
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -167,7 +165,7 @@ public class GameScreen extends ScreenAdapter {
                 imageTextButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("CLICKED BY BUMBR: " + tile1.getNumber());
+                        System.out.println(CLICKED_BY_BUMBR + tile1.getNumber());
                         GameScreen.sudoku.setSelectedSell(tile1);
                     }
                 });
@@ -178,16 +176,16 @@ public class GameScreen extends ScreenAdapter {
                 i++;
                 j++;
                 if (i % 3 == 0 && j % 3 == 0) {
-                    tableCells.add(imageTextButton).pad(pad).padBottom(padBottom).padRight(padBottom);
+                    tableCells.add(imageTextButton).size(size).pad(pad).padBottom(padBottom).padRight(padBottom);
                 }
                 if (i % 3 == 0 && j % 3 != 0) {
-                    tableCells.add(imageTextButton).pad(pad).padBottom(padBottom).padRight(0);
+                    tableCells.add(imageTextButton).size(size).pad(pad).padBottom(padBottom).padRight(0);
                 }
                 if (i % 3 != 0 && j % 3 == 0) {
-                    tableCells.add(imageTextButton).pad(pad).padBottom(0).padRight(padBottom);
+                    tableCells.add(imageTextButton).size(size).pad(pad).padBottom(0).padRight(padBottom);
                 }
                 if (i % 3 != 0 && j % 3 != 0) {
-                    tableCells.add(imageTextButton).pad(pad).padBottom(0).padRight(0);
+                    tableCells.add(imageTextButton).size(size).pad(pad).padBottom(0).padRight(0);
                 }
                 i--;
                 j--;
@@ -285,7 +283,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void updatePuzzleStatus() {
         isSolved = SudokuService.isRowSolvedCorrect(sudoku);
-        System.out.println("CHECK if GAME EDNDED: " + isSolved);
+        System.out.println(CHECK_IF_GAME_EDNDED + isSolved);
         if (isSolved && elapsedTime < minTime) {
             saveBestResult();
         }
@@ -296,7 +294,7 @@ public class GameScreen extends ScreenAdapter {
         Preferences prefs = Gdx.app.getPreferences(PREFERENCE_SAVING_PATH);
         prefs.putInteger(levelScoreSavingPath, (int) minTime);
         prefs.flush();
-        System.out.println("Result saved " + minTime);
+        System.out.println(RESULT_SAVED + minTime);
     }
 
     @Override

@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class Level {
-  private String imagePath;
-  private Sudoku sudoku;
-  private String category;
-  private String name;
+    private String imagePath;
+    private Sudoku sudoku;
+    private String category;
+    private String name;
 }
