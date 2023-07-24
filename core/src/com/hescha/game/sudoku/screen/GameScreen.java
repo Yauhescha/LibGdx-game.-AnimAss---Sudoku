@@ -2,6 +2,7 @@ package com.hescha.game.sudoku.screen;
 
 
 import static com.hescha.game.sudoku.AnimAssSudoku.BACKGROUND_COLOR;
+import static com.hescha.game.sudoku.AnimAssSudoku.PREFERENCE_SAVING_PATH;
 import static com.hescha.game.sudoku.AnimAssSudoku.WORLD_HEIGHT;
 import static com.hescha.game.sudoku.AnimAssSudoku.WORLD_WIDTH;
 
@@ -13,6 +14,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -28,9 +30,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.hescha.game.sudoku.AnimAssSudoku;
 import com.hescha.game.sudoku.model.Sudoku;
-import com.hescha.game.sudoku.model.SudokuDifficulty;
-import com.hescha.game.sudoku.service.SudokuGenerator;
-import com.hescha.game.sudoku.service.SudokuService;
+import com.hescha.game.sudoku.model.SudokuCell;
 import com.hescha.game.sudoku.util.FontUtil;
 import com.hescha.game.sudoku.util.Level;
 
@@ -39,16 +39,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GameScreen extends ScreenAdapter {
     public static Sudoku sudoku;
-    private final Level level;
+    public final Level level;
     private Viewport viewport;
     private Stage stageInfo;
-    private BitmapFont bitmapFont;
     private ImageTextButton imageTextButton;
     private Integer movesMin;
     private String levelScoreSavingPath;
+    public static GlyphLayout glyphLayout;
+    public static BitmapFont bitmapFont;
+    Table callsTable;
 
     @Override
     public void show() {
+        glyphLayout = new GlyphLayout();
+        bitmapFont = FontUtil.generateFont(Color.WHITE);
+
         float worldWidth = WORLD_WIDTH;
         OrthographicCamera camera = new OrthographicCamera(worldWidth, WORLD_HEIGHT);
         camera.position.set(worldWidth / 2, WORLD_HEIGHT / 2, 0);
@@ -56,12 +61,6 @@ public class GameScreen extends ScreenAdapter {
         viewport = new FitViewport(worldWidth, WORLD_HEIGHT, camera);
         viewport.apply(true);
         SpriteBatch batch = new SpriteBatch();
-
-        bitmapFont = FontUtil.generateFont(Color.BLACK);
-
-//        LevelType levelType = level.getType();
-//        Texture levelTexture = new Texture(Gdx.files.internal(level.getTexturePath()));
-//        TextureRegion[][] textureRegions = TextureRegion.split(levelTexture, levelType.imageWidth, levelType.imageHeight);
 
         sudoku = level.getSudoku();
         stageInfo = new Stage(viewport, batch);
@@ -78,19 +77,45 @@ public class GameScreen extends ScreenAdapter {
         table.setFillParent(true);
 
 
-        Texture mainImage = new Texture(Gdx.files.internal("ui/EmptyScreen.png"));
+        Texture mainImage = new Texture(Gdx.files.internal("ui/button.png"));
         TextureRegion mainBoard = new TextureRegion(mainImage);
         TextureRegionDrawable buttonDrawable = new TextureRegionDrawable(mainBoard);
         imageTextButton = new ImageTextButton("Back", new ImageTextButton.ImageTextButtonStyle(buttonDrawable, null, null, font));
         innerTable.add(imageTextButton).top().row();
 
-//        Tile[][] tiles = sudoku.getTiles();
-//        for (Tile[] tile : tiles) {
-//            for (Tile tile1 : tile) {
-//                innerTable.addActor(tile1);
-//            }
-//        }
-        stageInfo.addActor(innerTable);
+        callsTable = new Table();
+        callsTable.setFillParent(true);
+        SudokuCell[][] tiles = sudoku.getBoard();
+        int i = 0;
+        int j = 0;
+        int size = 60;
+        int pad = 5;
+        int padBottom = 20;
+        for (SudokuCell[] tile : tiles) {
+            i++;
+            for (SudokuCell tile1 : tile) {
+                j++;
+                if (i % 3 == 0 && j % 3 == 0) {
+                    callsTable.add(tile1).size(size).pad(pad).padBottom(padBottom).padRight(padBottom);
+                }
+                if (i % 3 == 0 && j % 3 != 0) {
+                    callsTable.add(tile1).size(size).pad(pad).padBottom(padBottom).padRight(0);
+                }
+                if (i % 3 != 0 && j % 3 == 0) {
+                    callsTable.add(tile1).size(size).pad(pad).padBottom(0).padRight(padBottom);
+                }
+                if (i % 3 != 0 && j % 3 != 0) {
+                    callsTable.add(tile1).size(size).pad(pad).padBottom(0).padRight(0);
+                }
+            }
+                callsTable.row();
+        }
+
+        table.setPosition(0, 0); // Set the desired position (x, y)
+        table.setSize(WORLD_WIDTH, 500); // Set the desired size (width, height)
+
+
+        stageInfo.addActor(callsTable);
 
 
         Texture buttonTexture = new Texture(Gdx.files.internal("ui/button.png"));
@@ -115,7 +140,7 @@ public class GameScreen extends ScreenAdapter {
 
 
         levelScoreSavingPath = level.getSudoku().getSudokuDifficulty().name() + "-" + level.getCategory() + "-" + level.getName();
-        Preferences prefs = Gdx.app.getPreferences("AnimAss_Sudoku");
+        Preferences prefs = Gdx.app.getPreferences(PREFERENCE_SAVING_PATH);
         movesMin = prefs.getInteger(levelScoreSavingPath, 9999);
     }
 
@@ -160,7 +185,6 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        bitmapFont.dispose();
         stageInfo.dispose();
     }
 

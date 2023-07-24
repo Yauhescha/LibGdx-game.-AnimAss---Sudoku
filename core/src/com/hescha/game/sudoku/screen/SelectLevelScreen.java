@@ -2,6 +2,7 @@ package com.hescha.game.sudoku.screen;
 
 
 import static com.hescha.game.sudoku.AnimAssSudoku.BACKGROUND_COLOR;
+import static com.hescha.game.sudoku.AnimAssSudoku.PREFERENCE_SAVING_PATH;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -72,22 +73,20 @@ public class SelectLevelScreen extends ScreenAdapter {
         table.setFillParent(true);
         font = FontUtil.generateFont(Color.WHITE);
         innerTable = new Table();
-//        innerTable.setFillParent(true);
-
 
         createButton(headerTexture, levelType.name().replace("_", " ") + "\n" + category, 50, null);
         createButton(buttonTexture, "BACK", 100, addAction(() -> AnimAssSudoku.launcher.setScreen(SelectCategoryScreen.screen)));
 
 
-        Preferences prefs = Gdx.app.getPreferences("AnimAss_Puzzle");
+        Preferences prefs = Gdx.app.getPreferences(PREFERENCE_SAVING_PATH);
         for (Level level : levels) {
 
-            String levelScoreSavingPath = levelType.name() + "-" + level.getCategory() + "-" + level.getName();
+            String levelScoreSavingPath = level.getSudoku().getSudokuDifficulty().name() + "-" + level.getCategory() + "-" + level.getName();
             int moves = prefs.getInteger(levelScoreSavingPath, -1);
             boolean isPassed = moves != -1;
 
             if (isPassed && isGalleryMode) {
-//                createButton(buttonGreenTexture, level.getName(), 10, addAction(() -> AnimAssSudoku.launcher.setScreen(new GalleryScreen(level))));
+                createButton(buttonGreenTexture, level.getName(), 10, addAction(() -> AnimAssSudoku.launcher.setScreen(new GalleryScreen(level))));
             } else if (isPassed && !isGalleryMode) {
                 createButton(buttonGreenTexture, level.getName(), 10, addAction(() -> AnimAssSudoku.launcher.setScreen(new GameScreen(level))));
             } else if (!isPassed && isGalleryMode) {
