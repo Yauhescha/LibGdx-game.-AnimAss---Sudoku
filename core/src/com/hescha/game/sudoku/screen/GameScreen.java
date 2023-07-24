@@ -40,8 +40,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GameScreen extends ScreenAdapter {
     public static final String RESULT_SAVED = "Result saved ";
-    public static final String CHECK_IF_GAME_EDNDED = "CHECK if GAME EDNDED: ";
-    public static final String CLICKED_BY_BUMBR = "CLICKED BY BUMBR: ";
+    public static final String CHECK_IF_GAME_EDNDED = "CHECK if GAME Ended: ";
+    public static final String CLICKED_BY_BUMBR = "CLICKED BY Number: ";
     public static Sudoku sudoku;
     public final Level level;
     private Viewport viewport;
@@ -121,7 +121,7 @@ public class GameScreen extends ScreenAdapter {
         tableContainer.add(emptyLabel1).row();
 
 
-        Texture texture = new Texture(Gdx.files.internal("ui/button.png"));
+        Texture texture = AnimAssSudoku.assetManager.get("ui/button.png", Texture.class);
         TextureRegion textureRegion = new TextureRegion(texture);
         TextureRegionDrawable buttonDrawable = new TextureRegionDrawable(textureRegion);
         infoLabel = new ImageTextButton("INFO", new ImageTextButton.ImageTextButtonStyle(buttonDrawable, null, null, fontWhite));
@@ -130,7 +130,7 @@ public class GameScreen extends ScreenAdapter {
         tableContainer.add(loadSudokuBoard()).center().row();
         tableContainer.add(loadNumbersForFilling()).center().row();
 
-        Texture buttonTexture = new Texture(Gdx.files.internal("ui/button.png"));
+        Texture buttonTexture = AnimAssSudoku.assetManager.get("ui/button.png", Texture.class);
         TextureRegion btnBack = new TextureRegion(buttonTexture);
         TextureRegionDrawable buttonDrawable1 = new TextureRegionDrawable(btnBack);
         ImageTextButton imageTextButton1 = new ImageTextButton("Back", new ImageTextButton.ImageTextButtonStyle(buttonDrawable1, null, null, fontWhite));
@@ -202,7 +202,7 @@ public class GameScreen extends ScreenAdapter {
         //print numbers
         float size = WORLD_WIDTH / 8;
         for (int i = 1; i <= 9; i++) {
-            TextureRegion btnBack = new TextureRegion(AnimAssSudoku.fieldSelectionButton);
+            TextureRegion btnBack = new TextureRegion(AnimAssSudoku.assetManager.get("ui/fieldSelectionButton.png", Texture.class));
             TextureRegionDrawable buttonDrawable1 = new TextureRegionDrawable(btnBack);
             ImageTextButton imageTextButton1 = new ImageTextButton(i + "", new ImageTextButton.ImageTextButtonStyle(buttonDrawable1, null, null, fontBlack));
             tableNumbers.add(imageTextButton1).size(size).pad(10);
@@ -221,7 +221,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         //print clear button
-        TextureRegion btnClean = new TextureRegion(AnimAssSudoku.cleanIcon);
+        TextureRegion btnClean = new TextureRegion(AnimAssSudoku.assetManager.get("ui/cleanIcon.png", Texture.class));
         TextureRegionDrawable buttonDrawable1 = new TextureRegionDrawable(btnClean);
         ImageTextButton imageTextButton1 = new ImageTextButton(" ", new ImageTextButton.ImageTextButtonStyle(buttonDrawable1, null, null, fontBlack));
         tableNumbers.add(imageTextButton1).size(size).pad(10);

@@ -67,7 +67,7 @@ public class GalleryScreen extends ScreenAdapter {
         innerTable.add(imageTextButton).top().row();
 
 
-        Texture buttonTexture = new Texture(Gdx.files.internal("ui/button.png"));
+        Texture buttonTexture = AnimAssSudoku.assetManager.get("ui/button.png", Texture.class);
 
         TextureRegion btnBack = new TextureRegion(buttonTexture);
         TextureRegionDrawable buttonDrawable1 = new TextureRegionDrawable(btnBack);

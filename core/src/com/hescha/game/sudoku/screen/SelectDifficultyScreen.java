@@ -49,8 +49,8 @@ public class SelectDifficultyScreen extends ScreenAdapter {
         camera.update();
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
         viewport.apply(true);
-        Texture buttonTexture = new Texture(Gdx.files.internal("ui/button.png"));
-        Texture headerTexture = new Texture(Gdx.files.internal("ui/header.png"));
+        Texture buttonTexture = AnimAssSudoku.assetManager.get("ui/button.png", Texture.class);
+        Texture headerTexture = AnimAssSudoku.assetManager.get("ui/header.png", Texture.class);
 
         Table table = new Table();
         table.setFillParent(true);

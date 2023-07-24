@@ -49,9 +49,10 @@ public class MainMenuScreen extends ScreenAdapter {
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
 
-        Texture buttonTextureMain = new Texture(Gdx.files.internal("ui/header.png"));
-        Texture buttonTexture = new Texture(Gdx.files.internal("ui/button.png"));
-        Texture mainImage = new Texture(Gdx.files.internal("ui/mainheader.png"));
+        Texture buttonTextureMain = AnimAssSudoku.assetManager.get("ui/header.png", Texture.class);
+        Texture buttonTexture = AnimAssSudoku.assetManager.get("ui/button.png", Texture.class);
+        Texture mainImage = AnimAssSudoku.assetManager.get("ui/mainheader.png", Texture.class);
+
         Image mainimage = new Image(mainImage);
         mainimage.setScaling(Scaling.fill);
         table.add(mainimage).expandX().center().fillX().padBottom(200).row();

@@ -64,10 +64,11 @@ public class SelectLevelScreen extends ScreenAdapter {
         camera.update();
         viewport = new FitViewport(worldWidth, worldHeight, camera);
         viewport.apply(true);
-        Texture buttonTexture = new Texture(Gdx.files.internal("ui/button.png"));
-        Texture closedButtonTexture = new Texture(Gdx.files.internal("ui/ClosedButton.png"));
-        Texture buttonGreenTexture = new Texture(Gdx.files.internal("ui/buttonGreen.png"));
-        Texture headerTexture = new Texture(Gdx.files.internal("ui/header.png"));
+
+        Texture buttonTexture = AnimAssSudoku.assetManager.get("ui/button.png", Texture.class);
+        Texture closedButtonTexture = AnimAssSudoku.assetManager.get("ui/ClosedButton.png", Texture.class);
+        Texture buttonGreenTexture = AnimAssSudoku.assetManager.get("ui/buttonGreen.png", Texture.class);
+        Texture headerTexture = AnimAssSudoku.assetManager.get("ui/header.png", Texture.class);
 
         Table table = new Table();
         table.setFillParent(true);
