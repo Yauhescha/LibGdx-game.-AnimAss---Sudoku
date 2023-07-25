@@ -284,8 +284,23 @@ public class GameScreen extends ScreenAdapter {
     private void updatePuzzleStatus() {
         isSolved = SudokuService.isRowSolvedCorrect(sudoku);
         System.out.println(CHECK_IF_GAME_EDNDED + isSolved);
-        if (isSolved && elapsedTime < minTime) {
-            saveBestResult();
+        if (isSolved) {
+            tableNumbers.clear();
+
+            Texture buttonTexture = AnimAssSudoku.assetManager.get("ui/button.png", Texture.class);
+            TextureRegion btnBack = new TextureRegion(buttonTexture);
+            TextureRegionDrawable buttonDrawable1 = new TextureRegionDrawable(btnBack);
+            ImageTextButton imageTextButton1 = new ImageTextButton("See image", new ImageTextButton.ImageTextButtonStyle(buttonDrawable1, null, null, fontWhite));
+            tableContainer.add(imageTextButton1).center().padTop(10).row();
+            imageTextButton1.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    AnimAssSudoku.launcher.setScreen(new GalleryScreen(level));
+                }
+            });
+            if (elapsedTime < minTime) {
+                saveBestResult();
+            }
         }
     }
 
