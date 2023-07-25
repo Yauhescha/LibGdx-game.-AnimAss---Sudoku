@@ -64,7 +64,7 @@ public class SelectDifficultyScreen extends ScreenAdapter {
         createButton(buttonTexture, "BACK", 100, addAction(() -> {
             screen = null;AnimAssSudoku.launcher.setScreen(MainMenuScreen.screen);}));
         for (SudokuDifficulty difficulty : SudokuDifficulty.values()) {
-            createButton(buttonTexture, difficulty.name(), 30,
+            createButton(buttonTexture, difficulty.name().replace("_", " "), 30,
                     addAction(() -> AnimAssSudoku.launcher.setScreen(new SelectCategoryScreen(difficulty, isGalleryMode))));
         }
 

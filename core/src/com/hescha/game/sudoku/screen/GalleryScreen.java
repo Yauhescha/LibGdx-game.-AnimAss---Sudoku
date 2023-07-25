@@ -46,13 +46,11 @@ public class GalleryScreen extends ScreenAdapter {
         viewport.apply(true);
         SpriteBatch batch = new SpriteBatch();
 
-        bitmapFont = FontUtil.generateFont(Color.BLACK);
+        bitmapFont = FontUtil.generateFont(Color.WHITE);
 
         stageInfo = new Stage(viewport, batch);
 
         Gdx.input.setInputProcessor(stageInfo);
-
-        BitmapFont font = FontUtil.generateFont(Color.BLACK);
 
         Table table = new Table();
         stageInfo.addActor(table);
@@ -63,7 +61,7 @@ public class GalleryScreen extends ScreenAdapter {
         Texture mainImage = new Texture(Gdx.files.internal(level.getImagePath()));
         TextureRegion mainBoard = new TextureRegion(mainImage);
         TextureRegionDrawable buttonDrawable = new TextureRegionDrawable(mainBoard);
-        ImageTextButton imageTextButton = new ImageTextButton("", new ImageTextButton.ImageTextButtonStyle(buttonDrawable, null, null, font));
+        ImageTextButton imageTextButton = new ImageTextButton("", new ImageTextButton.ImageTextButtonStyle(buttonDrawable, null, null, bitmapFont));
         innerTable.add(imageTextButton).top().row();
 
 
@@ -71,7 +69,7 @@ public class GalleryScreen extends ScreenAdapter {
 
         TextureRegion btnBack = new TextureRegion(buttonTexture);
         TextureRegionDrawable buttonDrawable1 = new TextureRegionDrawable(btnBack);
-        ImageTextButton imageTextButton1 = new ImageTextButton("Back", new ImageTextButton.ImageTextButtonStyle(buttonDrawable1, null, null, font));
+        ImageTextButton imageTextButton1 = new ImageTextButton("Back", new ImageTextButton.ImageTextButtonStyle(buttonDrawable1, null, null, bitmapFont));
         int imageHeight = 512;
         innerTable.add(imageTextButton1).center().padTop(10).padBottom(imageHeight).row();
         imageTextButton1.addListener(new ClickListener() {
@@ -81,7 +79,7 @@ public class GalleryScreen extends ScreenAdapter {
             }
         });
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(bitmapFont, Color.WHITE);
         Label emptyLabel1 = new Label(" ", labelStyle);
         innerTable.add(emptyLabel1);
 
