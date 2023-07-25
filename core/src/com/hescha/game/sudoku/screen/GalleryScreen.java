@@ -26,14 +26,16 @@ import com.hescha.game.sudoku.AnimAssSudoku;
 import com.hescha.game.sudoku.util.FontUtil;
 import com.hescha.game.sudoku.util.Level;
 
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class GalleryScreen extends ScreenAdapter {
     private final Level level;
     private Viewport viewport;
     private Stage stageInfo;
     private BitmapFont bitmapFont;
+
+    public GalleryScreen(Level level) {
+        this.level = level;
+    }
 
     @Override
     public void show() {

@@ -33,9 +33,6 @@ import com.hescha.game.sudoku.util.Level;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 public class SelectLevelScreen extends ScreenAdapter {
     public static SelectLevelScreen screen;
     private SudokuDifficulty levelType;

@@ -90,8 +90,6 @@ public class MainMenuScreen extends ScreenAdapter {
                 Gdx.app.exit();
             }
         });
-
-        loadLevels();
     }
 
     @Override

@@ -4,13 +4,7 @@ import com.hescha.game.sudoku.model.Sudoku;
 import com.hescha.game.sudoku.model.SudokuCell;
 import com.hescha.game.sudoku.model.SudokuDifficulty;
 
-import lombok.AllArgsConstructor;
-
-
-@AllArgsConstructor
 public class SudokuService {
-
-    private final SudokuGenerator sudokuGenerator;
 
     public static Sudoku generateGame(SudokuDifficulty sudokuDifficulty) {
         return SudokuGenerator.generateGame(sudokuDifficulty);

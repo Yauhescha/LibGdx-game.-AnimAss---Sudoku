@@ -3,14 +3,13 @@ package com.hescha.game.sudoku.model;
 
 import java.io.Serializable;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
 public class SudokuCell implements Serializable {
     private SudokuCellType cellType;
     private int number;
+
+    public SudokuCell() {
+    }
 
     public SudokuCell(int number, SudokuCellType cellType) {
         this.number = number;
@@ -21,5 +20,17 @@ public class SudokuCell implements Serializable {
         if (cellType != SudokuCellType.DISABLED) {
             this.number = number;
         }
+    }
+
+    public SudokuCellType getCellType() {
+        return cellType;
+    }
+
+    public void setCellType(SudokuCellType cellType) {
+        this.cellType = cellType;
+    }
+
+    public int getNumber() {
+        return number;
     }
 }

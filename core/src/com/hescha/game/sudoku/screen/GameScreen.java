@@ -35,15 +35,13 @@ import com.hescha.game.sudoku.service.SudokuService;
 import com.hescha.game.sudoku.util.FontUtil;
 import com.hescha.game.sudoku.util.Level;
 
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class GameScreen extends ScreenAdapter {
+    public final Level level;
     public static final String RESULT_SAVED = "Result saved ";
     public static final String CHECK_IF_GAME_EDNDED = "CHECK if GAME Ended: ";
     public static final String CLICKED_BY_BUMBR = "CLICKED BY Number: ";
     public static Sudoku sudoku;
-    public final Level level;
     private Viewport viewport;
     private Stage stageInfo;
     private String levelScoreSavingPath;
@@ -75,6 +73,10 @@ public class GameScreen extends ScreenAdapter {
     TextureRegion textureRegion2;
     TextureRegion textureRegion3;
     TextureRegion textureRegion4;
+
+    public GameScreen(Level level) {
+        this.level = level;
+    }
 
     @Override
     public void show() {
