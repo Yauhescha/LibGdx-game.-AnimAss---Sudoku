@@ -87,6 +87,7 @@ public class GalleryScreen extends ScreenAdapter {
 
         ScrollPane scrollPane = new ScrollPane(innerTable);
         table.add(scrollPane);
+        level.clearBoard();
     }
 
 

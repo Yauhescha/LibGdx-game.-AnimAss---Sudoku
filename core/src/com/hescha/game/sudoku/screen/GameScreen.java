@@ -300,7 +300,9 @@ public class GameScreen extends ScreenAdapter {
             imageTextButton1.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    isSolved=false;
                     AnimAssSudoku.launcher.setScreen(new GalleryScreen(level));
+
                 }
             });
             if (elapsedTime < minTime) {

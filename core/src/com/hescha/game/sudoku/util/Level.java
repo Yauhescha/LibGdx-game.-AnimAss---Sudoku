@@ -1,6 +1,10 @@
 package com.hescha.game.sudoku.util;
 
 import com.hescha.game.sudoku.model.Sudoku;
+import com.hescha.game.sudoku.model.SudokuCell;
+import com.hescha.game.sudoku.model.SudokuCellType;
+import com.hescha.game.sudoku.screen.GalleryScreen;
+import com.hescha.game.sudoku.screen.GameScreen;
 
 import java.io.Serializable;
 
@@ -40,5 +44,14 @@ public class Level implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void clearBoard() {
+        for(SudokuCell[] cells: getSudoku().getBoard()){
+            for (SudokuCell cell:cells){
+                if(cell.getCellType()!= SudokuCellType.DISABLED)
+                    cell.setNumber(0);
+            }
+        }
     }
 }
