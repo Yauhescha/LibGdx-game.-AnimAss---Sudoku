@@ -62,11 +62,6 @@ public class GameScreen extends ScreenAdapter {
     public Texture textureFilledCell;
     public Texture texturePermanentCell;
 
-    public TextureRegionDrawable textureSelectedCellDrawable;
-    public TextureRegionDrawable textureEmptyCellDrawable;
-    public TextureRegionDrawable textureFilledCellDrawable;
-    public TextureRegionDrawable texturePermanentCellDrawable;
-
     public static BitmapFont fontWhite;
     public static BitmapFont fontBlack;
 
@@ -74,6 +69,12 @@ public class GameScreen extends ScreenAdapter {
     private float minTime;
     ImageTextButton infoLabel;
     boolean isSolved = false;
+
+
+    TextureRegion textureRegion1;
+    TextureRegion textureRegion2;
+    TextureRegion textureRegion3;
+    TextureRegion textureRegion4;
 
     @Override
     public void show() {
@@ -90,10 +91,10 @@ public class GameScreen extends ScreenAdapter {
         texturePermanentCell = new Texture(Gdx.files.internal("ui/texturePermanentCell.png"));
 
 
-        textureSelectedCellDrawable = new TextureRegionDrawable(textureSelectedCell);
-        textureEmptyCellDrawable = new TextureRegionDrawable(textureEmptyCell);
-        textureFilledCellDrawable = new TextureRegionDrawable(textureFilledCell);
-        texturePermanentCellDrawable = new TextureRegionDrawable(texturePermanentCell);
+        textureRegion1 = new TextureRegion(texturePermanentCell);
+        textureRegion2 = new TextureRegion(textureSelectedCell);
+        textureRegion3 = new TextureRegion(textureFilledCell);
+        textureRegion4 = new TextureRegion(textureEmptyCell);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(fontBlack, Color.BLACK);
 
@@ -245,7 +246,9 @@ public class GameScreen extends ScreenAdapter {
             updatePuzzleStatus();
             elapsedTime += Gdx.graphics.getDeltaTime();
         }
-        infoLabel.setText("Seconds: " + (int) elapsedTime + "\n" +
+        infoLabel.setText("Difficulty: " + level.getSudoku().getSudokuDifficulty().name().replace("_", " ") + "\n" +
+                "Category: " + level.getCategory() + "\n" +
+                "Seconds: " + (int) elapsedTime + "\n" +
                 "Seconds min: " + (int) minTime);
 
         ScreenUtils.clear(BACKGROUND_COLOR);
@@ -271,13 +274,13 @@ public class GameScreen extends ScreenAdapter {
 
     public TextureRegion getCellTexture(SudokuCell cell) {
         if (cell.getCellType() == SudokuCellType.DISABLED) {
-            return new TextureRegion(texturePermanentCell);
+            return textureRegion1;
         } else if (GameScreen.sudoku.getSelectedSell() == cell) {
-            return new TextureRegion(textureSelectedCell);
+            return textureRegion2;
         } else if (cell.getNumber() != 0) {
-            return new TextureRegion(textureFilledCell);
+            return textureRegion3;
         } else {
-            return new TextureRegion(textureEmptyCell);
+            return textureRegion4;
         }
     }
 
