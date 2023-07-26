@@ -245,8 +245,10 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         if (!isSolved) {
-            updatePuzzleStatus();
             elapsedTime += Gdx.graphics.getDeltaTime();
+            if (sudoku.isFilled()) {
+                updatePuzzleStatus();
+            }
         }
         infoLabel.setText("Difficulty: " + level.getSudoku().getSudokuDifficulty().name().replace("_", " ") + "\n" +
                 "Category: " + level.getCategory() + "\n" +
@@ -300,7 +302,7 @@ public class GameScreen extends ScreenAdapter {
             imageTextButton1.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    isSolved=false;
+                    isSolved = false;
                     AnimAssSudoku.launcher.setScreen(new GalleryScreen(level));
 
                 }
